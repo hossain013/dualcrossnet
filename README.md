@@ -23,7 +23,7 @@
 **DualCrossNet** is a dual-stream cross-attention framework designed for antibody–antigen modeling tasks, including neutralization prediction, binding affinity estimation, protein–protein interaction (PPI) analysis, and binding free energy change prediction. 
 
 ## Key Features
-- **Dual-Stream Cross-Attention**: Integrates structural and sequence insights dynamically between antigens and antibodies.
+- **Dual-Stream Cross-Attention**: Utilizes a `LlamaDecoder` block with classical Multi-Head Attention (MHA) followed by bidirectional cross-attention, integrating structural and sequence insights dynamically between antigens and antibodies.
 - **Multiple PLM Support**: Built to seamlessly use representations from ProtT5, ESM-2, and SeqVec.
 - **Robust Generalization**: Optimized training pipelines (e.g., focal loss, cosine annealing, AdamW) applied across diverse viral and human datasets.
 - **Interpretability**: Includes comprehensive interpretability utilities to map and visualize cross-attention scores.
