@@ -4,7 +4,7 @@
 
 **DualCrossNet** is a dual-stream cross-attention framework designed for antibody–antigen modeling tasks, including neutralization prediction, binding affinity estimation, protein–protein interaction (PPI) analysis, and binding free energy change prediction.
 
-\---
+
 
 ## Architecture
 
@@ -12,7 +12,7 @@
 
 
 
-\---
+
 
 ## Installation
 
@@ -43,7 +43,7 @@ conda activate antibody\_dl\_environment
 
 > This environment supports deep learning model training, cross-attention modules, and evaluation workflows.
 
-\---
+
 
 ### Datasets
 
@@ -65,7 +65,7 @@ The intra-species human PPI dataset includes **36,630 interacting protein pairs*
 **Yeast PPI Dataset**
 The *Saccharomyces cerevisiae* (yeast) core PPI dataset was downloaded from the [Database of Interacting Proteins (DIP)](https://dip.doe-mbi.ucla.edu/) (version 20,070,219). This dataset provides experimentally validated protein–protein interactions and is widely used for benchmarking PPI prediction models.
 
-\---
+
 
 ## Training
 
@@ -91,7 +91,7 @@ script/
 
 > These scripts and notebooks cover feature extraction using multiple protein language models, dataset-specific training pipelines, ablation studies, K-fold cross-validation, and visualization/interpretability utilities.
 
-\---
+
 
 ## Citation
 
