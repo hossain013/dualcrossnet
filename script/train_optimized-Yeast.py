@@ -1,5 +1,5 @@
 """
-Optimized Training Script: ESM2 + LLaMA Cross-Attention KFold
+Optimized Training Script: ProtT5 + DualCrossNet KFold
 =============================================================
 Optimizations over baseline (targeting SOTA outperformance):
 
@@ -18,11 +18,6 @@ Optimizations over baseline (targeting SOTA outperformance):
 9.  W&B logging made fully optional (runs fine without credentials)
 10. Reproducible seeds set on numpy, random, and TF
 
-Architecture is UNCHANGED — same layers, same dimensions.
-
-SOTA (RLEAAI) reference metrics (threshold=0.50):
-  Precision=0.887  Recall=0.911  Specificity=0.884
-  F1=0.899  AUC=0.948  AUPR=0.939
 """
 
 # ──────────────────────────────────────────────────────────────

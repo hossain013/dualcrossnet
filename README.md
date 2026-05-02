@@ -115,7 +115,7 @@ script/
 > Citation information will be added here. Please cite the corresponding paper if you use this code or framework.
 
 ```bibtex
-@article{LlamaCrossAttn2026,
+@article{DualCrossNet2026,
   title   = {A Dual-Stream AI Framework for Multi-Perspective Antibody Functional Landscapes},
   author  = {Delower Hossain, Jake Y Chen},
   journal = {Journal to be added},
