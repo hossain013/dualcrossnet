@@ -8,7 +8,7 @@
 
 ## Architecture
 
-!\[DualCrossNet Architecture](./Images/Architecture-Page-3.drawio.png)
+![DualCrossNet Architecture](./image/Architecture-Page-3.drawio.png)
 
 
 
@@ -31,8 +31,6 @@ Two Conda environments are used for reproducibility and modularity.
 conda env create -f llm\_tor2.yaml
 conda activate llm\_tor2
 ```
-
-*Dummy text:*
 
 > This environment is used for protein language model–based feature extraction (ProtT5, ESM-2, SeqVec).
 
