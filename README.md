@@ -32,6 +32,19 @@
 
 ![DualCrossNet Architecture](./image/Architecture-Page-3.drawio.png)
 
+## Biological Plausibility & Interpretability
+
+DualCrossNet goes beyond black-box predictions by incorporating a robust interpretability suite to validate that the model learns genuine *biological grammar* rather than relying on sequence artifacts. 
+
+- **Four-Layer Interpretability**: We employ four independent methods to decode the model's decision-making:
+  1. **Cross-Attention (Correlational)**: Maps exactly where the model "looks" when evaluating binding.
+  2. **Integrated Gradients (Causal)**: Determines what input features causally drive the final prediction.
+  3. **GradCAM (Semi-Causal)**: Filters attention maps by gradient sensitivity to isolate functionally critical residues.
+  4. **Chemical Grammar Probing**: Confirms that the model's internal hidden states inherently encode chemical properties (e.g., aromaticity, hydrophobicity) without explicit annotations.
+
+- **HDOCK Cross-Validation**: To ensure biological ground-truth, our interpretability signals are cross-validated against independent, blind molecular docking (HDOCK). 
+- **Key Findings**: The model strongly and autonomously recognizes paratope features (like CDR-L1 and CDR-H3) that align perfectly with structural contacts, proving that DualCrossNet intrinsically learns the complex chemical rules governing antibody-antigen binding.
+
 ## Installation
 
 ### Requirements
