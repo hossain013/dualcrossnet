@@ -1,75 +1,93 @@
 # DualCrossNet
 
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.4.1-ee4c2c.svg)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.19.1-ff6f00.svg)
+![CUDA](https://img.shields.io/badge/CUDA-12.4-76b900.svg)
+![Keras](https://img.shields.io/badge/Keras-3.12.0-d00000.svg)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-1.7.1-f7931e.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+
+## Table of Contents
+- [Overview](#overview)
+- [Key Features](#key-features)
+- [Architecture](#architecture)
+- [Installation](#installation)
+- [Usage / Quickstart](#usage--quickstart)
+- [Dataset Descriptions](#dataset-descriptions)
+- [Code Structure](#code-structure)
+- [Citation](#citation)
+
 ## Overview
 
-**DualCrossNet** is a dual-stream cross-attention framework designed for antibody–antigen modeling tasks, including neutralization prediction, binding affinity estimation, protein–protein interaction (PPI) analysis, and binding free energy change prediction.
+**DualCrossNet** is a dual-stream cross-attention framework designed for antibody–antigen modeling tasks, including neutralization prediction, binding affinity estimation, protein–protein interaction (PPI) analysis, and binding free energy change prediction. 
 
-
+## Key Features
+- **Dual-Stream Cross-Attention**: Integrates structural and sequence insights dynamically between antigens and antibodies.
+- **Multiple PLM Support**: Built to seamlessly use representations from ProtT5, ESM-2, and SeqVec.
+- **Robust Generalization**: Optimized training pipelines (e.g., focal loss, cosine annealing, AdamW) applied across diverse viral and human datasets.
+- **Interpretability**: Includes comprehensive interpretability utilities to map and visualize cross-attention scores.
 
 ## Architecture
 
 ![DualCrossNet Architecture](./image/Architecture-Page-3.drawio.png)
 
-
-
-
-
 ## Installation
 
-* PyTorch = 2.4.1
-* Tensorflow = 2.19.1
-* Cuda = 12.4
-* GPU = NVIDIA A100 80GB PCIe
+### Requirements
+* **PyTorch** = 2.4.1
+* **TensorFlow** = 2.19.1
+* **CUDA** = 12.4
+* **GPU** = NVIDIA A100 80GB PCIe (or equivalent)
 
 ### Environment Setup
 
-Two Conda environments are used for reproducibility and modularity.
+Two separate Conda environments are used to maintain modularity and reproducibility between feature extraction and model training.
 
-#### 1\. Feature Extraction Environment
-
-```bash
-conda env create -f llm\_tor2.yaml
-conda activate llm\_tor2
-```
+#### 1. Feature Extraction Environment
 
 > This environment is used for protein language model–based feature extraction (ProtT5, ESM-2, SeqVec).
 
-#### 2\. Training Environment
-
 ```bash
-conda env create -f antibody\_dl\_environment.yaml
-conda activate antibody\_dl\_environment
+conda env create -f llm_tor2.yaml
+conda activate llm_tor2
 ```
+
+#### 2. Training Environment
 
 > This environment supports deep learning model training, cross-attention modules, and evaluation workflows.
 
+```bash
+conda env create -f antibody_dl_environment.yaml
+conda activate antibody_dl_environment
+```
 
+## Usage / Quickstart
 
-### Datasets
+After generating the necessary feature representations, you can utilize the highly optimized training scripts to train the DualCrossNet model. 
 
-### Ag–Ab Neutralization Datasets
+```bash
+# Example: Training the optimized model on the HIV dataset
+conda activate antibody_dl_environment
+python script/train_optimized-HIV.py
+```
 
-The HIV antibody neutralization data were obtained from the [HIV Sequence Database](https://www.hiv.lanl.gov/components/sequence/HIV/neutralization/). To reduce redundancy and ensure diversity, Ag–Ab pairs with sequence homology greater than 90% for both antigens and antibodies were excluded. The final curated dataset consists of **24,907 neutralizing antibody–antigen pairs** and **26,480 non-neutralizing pairs**, forming a large-scale benchmark for HIV neutralization prediction.
+## Dataset Descriptions
 
-### Antibody–Antigen Affinity
+#### Ag–Ab Neutralization Datasets (HIV)
+The HIV antibody neutralization dataset was sourced from the **HIV Sequence Database**. To ensure dataset diversity and minimize redundancy, antigen–antibody (Ag–Ab) pairs with more than 90% sequence homology in both components were excluded. The final curated benchmark consists of **24,907 neutralizing** and **26,480 non-neutralizing** antibody–antigen pairs, providing a robust large-scale dataset for neutralization prediction.
 
-The [SAbDab](https://academic.oup.com/nar/article/42/D1/D1140/1044118) database is a curated repository of experimentally resolved antibody–antigen (Ag–Ab) complexes collected from the Protein Data Bank (PDB). For the binding prediction task in this study, we selected complexes with antigen sequences longer than 50 residues and removed redundant entries based on antibody CDR loop similarity. After filtering, a total of **1,513 unique Ag–Ab binding pairs** were retained and used as the SAbDab dataset.
+#### SARS-CoV-2 Neutralization Dataset
+Compiled specifically for this study, the SARS-CoV-2 dataset aggregates interaction data from the **Coronavirus Antibody Database (CovAbDab)** and **NCBI**. The dataset was filtered for quality and redundancy to ensure a diverse representation of antibody–antigen interactions. It contains a total of **6,904 interaction pairs**, comprising **3,376 neutralizing (positive)** and **3,528 non-neutralizing (negative)** samples. The data covers multiple viral variants, including **Alpha, Beta, Delta, Gamma, and Omicron**, and is split into a training set (**CoVtr**) of 6,150 pairs and a test set (**CoVtst**) of 754 pairs.
 
+#### Antibody–Antigen Affinity (SAbDab)
+The **SAbDab** dataset consists of experimentally resolved antibody–antigen complexes retrieved from the **Protein Data Bank (PDB)**. For this study, the dataset was refined to include only complexes with antigen sequences exceeding 50 residues. Redundancy was further reduced by filtering based on antibody CDR loop similarity, resulting in a high-quality set of **1,513 unique Ag–Ab binding pairs**.
 
+#### Protein–Protein Interaction (PPI) Datasets
+- **Human PPI Dataset:** This intra-species dataset includes **36,630 interacting protein pairs** from the **Human Protein Reference Database (HPRD)**. To create a balanced benchmark, **36,480 non-interacting pairs** were generated by pairing proteins from the **LR_PPI** dataset that are localized in different subcellular compartments, minimizing the potential for natural interactions.
+- **Yeast PPI Dataset:** The *Saccharomyces cerevisiae* (yeast) core PPI dataset was obtained from the **Database of Interacting Proteins (DIP)** (version 20,070,219). This dataset provides a gold-standard collection of experimentally validated interactions widely used for benchmarking PPI prediction models.
 
-### Protein–Protein Interaction (PPI) Dataset
-
-**Human Protein–Protein Interaction (PPI) Dataset**
-The intra-species human PPI dataset includes **36,630 interacting protein pairs** collected from the [Human Protein Reference Database (HPRD)](http://www.hprd.org/) and **36,480 non-interacting pairs** obtained from the [LR\_PPI dataset](http://www.csbio.sjtu.edu.cn/bioinf/LR_PPI/Data.htm). Non-interacting samples were generated by pairing proteins localized in different subcellular compartments, minimizing the likelihood of true interactions.
-
-**Yeast PPI Dataset**
-The *Saccharomyces cerevisiae* (yeast) core PPI dataset was downloaded from the [Database of Interacting Proteins (DIP)](https://dip.doe-mbi.ucla.edu/) (version 20,070,219). This dataset provides experimentally validated protein–protein interactions and is widely used for benchmarking PPI prediction models.
-
-
-
-## Training
-
-### Code Structure (Scripts and Notebooks)
+## Code Structure
 
 ```text
 script/
@@ -91,21 +109,15 @@ script/
 
 > These scripts and notebooks cover feature extraction using multiple protein language models, dataset-specific training pipelines, ablation studies, K-fold cross-validation, and visualization/interpretability utilities.
 
-
-
 ## Citation
-
-
 
 > Citation information will be added here. Please cite the corresponding paper if you use this code or framework.
 
 ```bibtex
 @article{LlamaCrossAttn2026,
-  title   = {A Dual-Stream AI Framework for Multi-Perspective Antibody Functional Landscapes
-},
+  title   = {A Dual-Stream AI Framework for Multi-Perspective Antibody Functional Landscapes},
   author  = {Delower Hossain, Jake Y Chen},
   journal = {Journal to be added},
   year    = {2026}
 }
 ```
-
